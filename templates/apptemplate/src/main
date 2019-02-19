@@ -1,0 +1,4 @@
+main(){
+  echo $1
+  test
+}
