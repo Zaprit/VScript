@@ -1,4 +1,0 @@
-if [ "$1" == "-h" ]
-then
-  echo "VScript Version $VS_VERSION $VS_CODENAME"
-fi

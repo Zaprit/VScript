@@ -8,10 +8,9 @@ Grab the SDK off the [Releases page](https://tyr123.ddns.net/Henry/VScript/relea
 
 ## How to develop
 Once you have the SDK you can get started developing.
-Open the vscript folder and run
-```
-./mkruntime build
-```
+
+
+
 
 ## How to help
 You can help improve Vscript by sending suggestions, issues, and mabye even make a pull request and actually develop. All help is very much appreceated
