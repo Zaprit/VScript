@@ -4,16 +4,9 @@
 VScript is a group of tools that come together to form a coherent tool for building complex bash applications
 
 ## Download
-Grab the latest SDK and vsruntime.base off the [Releases page](https://tyr123.ddns.net/henry/VScript/releases) and unzip it, or for the more adventurous you could grab the runtime sdk and make your own
+Grab the latest SDK and vsruntime.base off the [Releases page](https://tyr123.ddns.net/henry/VScript/releases) and unzip it, or for the more adventurous you could grab the ADK and make your own vsruntime
 
 ## How to develop
-Once you have the SDK you can get started developing.
-Look inside the Vscript folder and you will see 4 things:
-Tools -- VRamen, appinfo, etc stuff to develop with
-Templates -- some template programs to get started with
-vsruntime.base
+There are two sdks the sdk and the adk the sdk is for most people who just want to code, the adk is for people who want optimisation, customisation or anything inbetween it will allow you to make your own so that you can strip VScript down or add your own stuff in vsruntime.base 
 
-
-
-## How to help
-You can help improve Vscript by sending suggestions, issues, and mabye even make a pull request and actually develop. All help is very much appreceated
+if you want to develop using either you should stop by the wiki and see the tutorials
