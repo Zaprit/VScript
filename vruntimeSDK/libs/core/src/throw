@@ -1,0 +1,6 @@
+throw(){
+echo "ERROR: $1 in program $2"
+echo "Error Detected... Dumping program data"
+dump
+exit $3
+}
