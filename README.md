@@ -8,7 +8,10 @@ Grab the SDK off the [Releases page](https://tyr123.ddns.net/Henry/VScript/relea
 
 ## How to develop
 Once you have the SDK you can get started developing.
-
+Look inside the Vscript folder and you will see 4 things:
+Tools -- VRamen, appinfo, etc stuff to develop with
+Templates -- some template programs to get started with
+vsruntime.base
 
 
 
