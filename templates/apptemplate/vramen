@@ -1,10 +1,10 @@
 #!/bin/bash
 
-#Application/Library configuration
-APP_NAME=""
-APP_VERSION=""
-APP_TYPE=""
-APP_FUZZY_NAME=""
+#Application/Module configuration
+APP_NAME="TemplateApp"
+APP_VERSION="1.5"
+APP_TYPE="app"
+APP_FUZZY_NAME="Template Application"
 #Past here... No touchey
 
 appdata(){
@@ -15,6 +15,7 @@ appdata(){
   echo '#Pregenerated code ahead. Here be dragons?' >> $1
 }
 
+<<<<<<< HEAD
 #Compiled in library
 if [ "$APP_TYPE" == "lib" ]
 then
@@ -36,6 +37,8 @@ then
   echo 'loadedLibs="$loadedLibs\n'"$APP_NAME V$APP_VERSION: $APP_FUZZY_NAME"'"' >> out.vlib
 fi
 
+=======
+>>>>>>> 563ddd3f0a2dfe0bb3c6f84ca221e9f5802707a4
 if [ "$APP_TYPE" == "mod" ]
 then
 

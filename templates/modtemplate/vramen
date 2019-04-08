@@ -1,9 +1,9 @@
 #!/bin/bash
 
-#Application/Library configuration
-APP_NAME=""
-APP_VERSION=""
-APP_TYPE=""
+#Application/Module configuration
+APP_NAME="TemplateMod"
+APP_VERSION="1.3.6"
+APP_TYPE="mod"
 APP_FUZZY_NAME=""
 #Past here... No touchey
 
@@ -15,6 +15,7 @@ appdata(){
   echo '#Pregenerated code ahead. Here be dragons?' >> $1
 }
 
+<<<<<<< HEAD
 #Compiled in library
 if [ "$APP_TYPE" == "lib" ]
 then
@@ -36,6 +37,8 @@ then
   echo 'loadedLibs="$loadedLibs\n'"$APP_NAME V$APP_VERSION: $APP_FUZZY_NAME"'"' >> out.vlib
 fi
 
+=======
+>>>>>>> 563ddd3f0a2dfe0bb3c6f84ca221e9f5802707a4
 if [ "$APP_TYPE" == "mod" ]
 then
 
@@ -47,6 +50,10 @@ then
     echo "Added class $class to module"
   done
   echo 'loadedMods="$loadedMods\n'"$APP_NAME V$APP_VERSION: $APP_FUZZY_NAME" >> $APP_NAME.vmod
+<<<<<<< HEAD
+=======
+  exit
+>>>>>>> 563ddd3f0a2dfe0bb3c6f84ca221e9f5802707a4
 fi
 
 if [ "$APP_TYPE" == "app" ]
@@ -87,5 +94,6 @@ then
   done
 
   echo 'main $@' >> $APP_NAME.vs
-
+  exit
 fi
+echo "Invailid Program Type"
