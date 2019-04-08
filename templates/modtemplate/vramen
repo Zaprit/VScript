@@ -33,7 +33,7 @@ then
     cat src/$class >> out.vlib
     echo "Added class $class to library"
   done
-  echo 'loadedLibs=$loadedLibs\n'"$APP_NAME V$APP_VERSION: $APP_FUZZY_NAME" >> out.vlib
+  echo 'loadedLibs="$loadedLibs\n'"$APP_NAME V$APP_VERSION: $APP_FUZZY_NAME"'"' >> out.vlib
 fi
 
 if [ "$APP_TYPE" == "mod" ]
@@ -46,7 +46,7 @@ then
     cat src/$class >> $APP_NAME.vmod
     echo "Added class $class to module"
   done
-  echo 'loadedMods=$loadedMods\n'"$APP_NAME V$APP_VERSION: $APP_FUZZY_NAME" >> $APP_NAME.vmod
+  echo 'loadedMods="$loadedMods\n'"$APP_NAME V$APP_VERSION: $APP_FUZZY_NAME" >> $APP_NAME.vmod
 fi
 
 if [ "$APP_TYPE" == "app" ]

@@ -1,10 +1,10 @@
 #!/bin/bash
 
-#Application/Library configuration
-APP_NAME="libtemplate"
-APP_VERSION="1.5"
-APP_TYPE="lib"
-APP_FUZZY_NAME="VScript Library Template"
+#Application/Module configuration
+APP_NAME="TemplateMod"
+APP_VERSION="1.3.6"
+APP_TYPE="mod"
+APP_FUZZY_NAME=""
 #Past here... No touchey
 
 appdata(){
@@ -14,27 +14,6 @@ appdata(){
   echo '' >> $1
   echo '#Pregenerated code ahead. Here be dragons?' >> $1
 }
-
-#Compiled in library
-if [ "$APP_TYPE" == "lib" ]
-then
-  if [ "$1" == "-en" ]; then
-     echo "enabled $APP_FUZZY_NAME" && touch ".en" && exit
-  fi
-  if [ "$1" == "-ds" ]; then
-     echo "disable $APP_FUZZY_NAME" && rm -f ."en" && exit
-  fi
-  #clean out old blob
-  rm -f out.vlib
-  touch out.vlib
-
-  #Compile classes
-  for class in $(ls src); do
-    cat src/$class >> out.vlib
-    echo "Added class $class to library"
-  done
-  echo 'loadedLibs="$loadedLibs\n'"$APP_NAME V$APP_VERSION: $APP_FUZZY_NAME"'"' >> out.vlib
-fi
 
 if [ "$APP_TYPE" == "mod" ]
 then
@@ -47,6 +26,7 @@ then
     echo "Added class $class to module"
   done
   echo 'loadedMods="$loadedMods\n'"$APP_NAME V$APP_VERSION: $APP_FUZZY_NAME" >> $APP_NAME.vmod
+  exit
 fi
 
 if [ "$APP_TYPE" == "app" ]
@@ -87,5 +67,6 @@ then
   done
 
   echo 'main $@' >> $APP_NAME.vs
-
+  exit
 fi
+echo "Invailid Program Type"
