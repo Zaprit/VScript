@@ -1,6 +1,0 @@
-#!/bin/bash
-for t in $(ls templates)
-do
-rm -rf templates/$t/vramen
-cp tools/vramen templates/$t/
-done

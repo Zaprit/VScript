@@ -1,4 +1,0 @@
-main(){
-  echo $1
-  yeet
-}
