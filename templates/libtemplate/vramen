@@ -1,10 +1,10 @@
 #!/bin/bash
 
-#Application/Library configuration
-APP_NAME="libtemplate"
-APP_VERSION="1.5"
-APP_TYPE="lib"
-APP_FUZZY_NAME="VScript Library Template"
+#Application/Module configuration
+APP_NAME=""
+APP_VERSION=""
+APP_TYPE=""
+APP_FUZZY_NAME=""
 #Past here... No touchey
 
 appdata(){
@@ -14,6 +14,7 @@ appdata(){
   echo '' >> $1
   echo '#Pregenerated code ahead. Here be dragons?' >> $1
 }
+
 
 #Compiled in library
 if [ "$APP_TYPE" == "lib" ]
@@ -87,5 +88,5 @@ then
   done
 
   echo 'main $@' >> $APP_NAME.vs
-
+  chmod 777 $APP_NAME.vs
 fi

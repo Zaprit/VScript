@@ -1,6 +1,11 @@
 #!/bin/bash
 for t in $(ls templates)
 do
+if [ -d templates/$t ]
+then
 rm -rf templates/$t/vramen
 cp tools/vramen templates/$t/
+fi
+
 done
+
