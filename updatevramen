@@ -6,6 +6,4 @@ then
 rm -rf templates/$t/vramen
 cp tools/vramen templates/$t/
 fi
-
 done
-
