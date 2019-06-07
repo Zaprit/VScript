@@ -30,10 +30,8 @@ build(){
 
   for lib in $(ls libs); do
 
-    if [ -e "libs/$lib/.en" ]; then
       cat "libs/$lib/out.vlib" >> vsruntime.base
       echo -e "\n# end of library $lib \n" >> vsruntime.base
-    fi
 
   done
 }
