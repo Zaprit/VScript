@@ -86,7 +86,9 @@ then
     cat src/$class >> $APP_NAME.vs
 
   done
-
+  echo 'if [ "$1" -ne "--getdata" ]' >> $APP_NAME.vs
+  echo 'then' >> $APP_NAME.vs
   echo 'main $@' >> $APP_NAME.vs
+  echo 'fi' >> $APP_NAME.vs
   chmod 777 $APP_NAME.vs
 fi
