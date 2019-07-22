@@ -1,10 +1,10 @@
 # VScript -- A Bash Library Tool
 
 ## About
-VScript is a tool for making, managing, and maintaining bash libraries 
+VScript is a tool for making, managing, and maintaining bash libraries
 
 ## Download
-Grab the latest SDK and vsruntime.base off the [Releases page](https://tyr123.ddns.net/henry/VScript/releases), unzip it and read its README.
+Grab the latest SDK and vsruntime.base off the [Releases page](https://valtek225.ddns.net/henry/VScript/releases), unzip it and read its README. The Release has all you need.
 
 ## How to develop
 Check out the tutorials on the wiki for this
