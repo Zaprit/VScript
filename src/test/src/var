@@ -1,4 +1,0 @@
-var(){
-vars="$vars\n$1"
-eval "$1"
-}
