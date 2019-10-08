@@ -16,15 +16,17 @@ done
 }
 
 selectLibs(){
-  echo $PWD
+  rm -rf .menubuildfile
   touch .menubuildfile
   LIBSCOUNT=$(ls -1 src | wc -l)
 
-  echo "--checkbox "Select Libraries To Compile" 0 0 $LIBSCOUNT \\" >> .menubuildfile
+  echo -n '--checklist "Select Libraries To Compile" 0 0 '$LIBSCOUNT >> .menubuildfile
   array=($(ls src))
   for (( i = 0; i < $LIBSCOUNT; i++ )); do
-      printf "$i "${array[i-1]} " off " >> .menubuildfile
+      printf $(($i-9))" "${array[i-1]} " off " >> .menubuildfile
   done
+
+  LIBS=$(dialog --file .menubuildfile 3>&1 1>&2 2>&3)
 }
 
 OUT=$(dialog --backtitle "Vget" \
@@ -41,14 +43,14 @@ case $OUT in
 		cd VScript
     selectLibs
 		./mkruntime buildlibs
-		dialog --backtitle "Vget" --title "Build Info" --infobox 0 0 "`./mkruntime build`"
+		dialog --backtitle "Vget" --title "Build Info" --infobox "`./mkruntime build`" 0 0
 		rm README.md help-template updatevramen vs-version-data
     sleep 1s
-    dialog --backtitle "Vget" --title "Build Info" --infobox 0 0 "Done"
+    dialog --backtitle "Vget" --title "Build Info" --infobox "Done" 0 0
 		;;
 	"2")
 		dl
-		dialog --backtitle "Vget" --title "Build Info" --infobox 0 0 "Done`sleep 1s`"
+		dialog --backtitle "Vget" --title "Build Info" --infobox "Done`sleep 1s`" 0 0
 		;;
 	"3")
 		exit
