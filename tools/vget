@@ -56,10 +56,12 @@ case $OUT in
 		rm README.md help-template updatevramen vs-version-data
     sleep 1s
     dialog --backtitle "Vget" --title "Build Info" --infobox "Done" 0 0
+    exit
 		;;
 	"2")
 		dl
 		dialog --backtitle "Vget" --title "Build Info" --infobox "Done`sleep 1s`" 0 0
+    exit
 		;;
 	"3")
 		exit
