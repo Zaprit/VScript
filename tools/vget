@@ -16,6 +16,10 @@ done
 }
 
 selectLibs(){
+  for i in $(ls src)
+  do
+    rm -rf $i/.en
+  done
   rm -rf .menubuildfile
   touch .menubuildfile
   LIBSCOUNT=$(ls -1 src | wc -l)
