@@ -1,0 +1,56 @@
+#!/bin/bash
+VS_URL="https://git.vorax.org/Henry/VScript.git"
+VER=1.0
+dl(){
+rm -rf VScript
+git clone $VS_URL 2>/dev/null &
+pid=$! # Process Id of the previous running command
+spin='-\|/'
+i=0
+while kill -0 $pid 2>/dev/null
+do
+  i=$(( (i+1) %4 ))
+  dialog --backtitle "Vget" --title "Download Manager" --infobox "Downloading VScript\n${spin:$i:1}" 0 0
+  sleep .1
+done
+}
+
+selectLibs(){
+  echo $PWD
+  touch .menubuildfile
+  LIBSCOUNT=$(ls -1 src | wc -l)
+
+  echo "--checkbox "Select Libraries To Compile" 0 0 $LIBSCOUNT \\" >> .menubuildfile
+  array=($(ls src))
+  for (( i = 0; i < $LIBSCOUNT; i++ )); do
+      printf "$i "${array[i-1]} " off " >> .menubuildfile
+  done
+}
+
+OUT=$(dialog --backtitle "Vget" \
+--radiolist "Select VScript Components:" 0 0 4 \
+1 "Get Latest VScript Release" on \
+2 "Don't Compile source" off \
+3 "Exit" off \
+3>&1 1>&2 2>&3)
+
+
+case $OUT in
+	"1")
+		dl
+		cd VScript
+    selectLibs
+		./mkruntime buildlibs
+		dialog --backtitle "Vget" --title "Build Info" --infobox 0 0 "`./mkruntime build`"
+		rm README.md help-template updatevramen vs-version-data
+    sleep 1s
+    dialog --backtitle "Vget" --title "Build Info" --infobox 0 0 "Done"
+		;;
+	"2")
+		dl
+		dialog --backtitle "Vget" --title "Build Info" --infobox 0 0 "Done`sleep 1s`"
+		;;
+	"3")
+		exit
+		;;
+esac

@@ -5,7 +5,7 @@ echo -e "VScript runtime builder V0.5 for VScript $VS_VERSION $VS_CODENAME\n"
 }
 
 buildlibs(){
-  cd libs
+  cd src
   for lib in $(ls ./)
   do
     cd $lib
@@ -28,11 +28,12 @@ build(){
   cat help-template >> vsruntime.base
   echo "Added help script"
 
-  for lib in $(ls libs); do
-
-      cat "libs/$lib/out.vlib" >> vsruntime.base
+  for lib in $(ls src); do
+    if [ -e "src/$lib/.en" ]
+    then
+      cat "src/$lib/out.vlib" >> vsruntime.base
       echo -e "\n# end of library $lib \n" >> vsruntime.base
-
+    fi
   done
 }
 
@@ -40,4 +41,13 @@ clean(){
   rm vsruntime.base
   echo "Cleaned base"
 }
+
+enlib(){
+ touch src/$1/.en
+}
+
+dislib(){
+ rm src/$1/.en
+}
+
 $1
