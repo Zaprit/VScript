@@ -1,0 +1,29 @@
+dump(){
+echo "Crash Dump"
+echo "VScript Version: $VS_VERSION $VS_CODENAME"
+echo "Loaded Libraries:"
+for lib in $loadedLibs
+do
+echo -ne $lib
+done
+
+echo
+echo "Loaded Modules:"
+for mod in $loadedMods
+do
+echo -ne $mod
+done
+
+echo
+echo "Variables:"
+for var in $vars
+do
+echo -ne $var
+done
+
+echo
+echo -e "\nApp metadata:"
+echo "  App name: $APP_NAME"
+echo "  App display name: $APP_FUZZY_NAME"
+echo "  App version: $APP_VERSION"
+}
