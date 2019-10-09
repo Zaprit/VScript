@@ -8,9 +8,12 @@ buildlibs(){
   cd src
   for lib in $(ls ./)
   do
-    cd $lib
-    ./vramen
-    cd ../
+    if [ -e $lib/.en ]
+    then
+      cd $lib
+      ./vramen
+      cd ../
+    fi
   done
   cd ..
 }
