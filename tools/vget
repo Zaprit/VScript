@@ -24,7 +24,7 @@ selectLibs(){
   touch .menubuildfile
   LIBSCOUNT=$(ls -1 src | wc -l)
 
-  echo -n '--buildlist "Select Libraries To Compile" 0 0 '$LIBSCOUNT >> .menubuildfile
+  echo -n '--reorder --buildlist "Select Libraries To Compile" 0 0 '$LIBSCOUNT >> .menubuildfile
   array=($(ls src))
   for (( i = 0; i < $LIBSCOUNT; i++ )); do
       printf " $(($i+1)) ${array[i-1]}  off " >> .menubuildfile
