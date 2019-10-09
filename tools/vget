@@ -1,5 +1,6 @@
 #!/bin/bash
 VS_URL="https://git.vorax.org/Henry/VScript.git"
+
 dl(){
 rm -rf VScript
 git clone $VS_URL 2>/dev/null &
@@ -22,33 +23,6 @@ getLibs(){
 }
 
 selectLibs(){
-  # echo $PWD
-  # for i in $(getLibs)
-  # do
-  #   rm -rf $i/.en
-  # done
-  # rm -rf .menubuildfile
-  # touch .menubuildfile
-  # LIBSCOUNT=$(ls -1 ./src/ | wc -l)
-  #
-  # echo -n '--checklist "Select Libraries To Compile" 0 0 '$LIBSCOUNT >> .menubuildfile
-  # array=($(getLibs))
-  # echo $array
-  # for (( i = 0; i < $LIBSCOUNT; i++ )); do
-  #     printf " $(($i+1)) ${array[$i-1]}  off " >> .menubuildfile
-  #     echo $(($i+1)) ${array[$i-1]}
-  # done
-  #
-  # LIBS=$(dialog --file .menubuildfile 3>&1 1>&2 2>&3)
-  # echo "libs"$LIBS
-  # echo $array
-  # for i in $LIBS
-  # do
-  #   touch "src/${array[$i-1]}"
-  #   echo $i" i"
-  # done
-
-  # Clean up source folders
   rm -rf src/*/.en
 
   # Make the menu builder files
