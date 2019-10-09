@@ -28,13 +28,16 @@ selectLibs(){
   array=($(ls src))
   for (( i = 0; i < $LIBSCOUNT; i++ )); do
       printf " $(($i+1)) ${array[i-1]}  off " >> .menubuildfile
+      echo $(($i+1)) ${array[i-1]}
   done
 
   LIBS=$(dialog --file .menubuildfile 3>&1 1>&2 2>&3)
-
+  echo "libs"$LIBS
+  echo $array
   for i in $LIBS
   do
-    ./mkruntime enlib "${array[i]}"
+    ./mkruntime enlib "${array[i-1]}"
+    echo ${array[i-1]} $i
   done
 }
 
