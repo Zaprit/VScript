@@ -1,6 +1,5 @@
 #!/bin/bash
 VS_URL="https://git.vorax.org/Henry/VScript.git"
-VER=1.0
 dl(){
 rm -rf VScript
 git clone $VS_URL 2>/dev/null &
@@ -15,29 +14,68 @@ do
 done
 }
 
+getLibs(){
+  for i in $(find src -maxdepth 1 -mindepth 1)
+  do
+    echo $(basename $i)
+  done
+}
+
 selectLibs(){
-  for i in $(ls src)
-  do
-    rm -rf $i/.en
-  done
-  rm -rf .menubuildfile
-  touch .menubuildfile
-  LIBSCOUNT=$(ls -1 src | wc -l)
+  # echo $PWD
+  # for i in $(getLibs)
+  # do
+  #   rm -rf $i/.en
+  # done
+  # rm -rf .menubuildfile
+  # touch .menubuildfile
+  # LIBSCOUNT=$(ls -1 ./src/ | wc -l)
+  #
+  # echo -n '--checklist "Select Libraries To Compile" 0 0 '$LIBSCOUNT >> .menubuildfile
+  # array=($(getLibs))
+  # echo $array
+  # for (( i = 0; i < $LIBSCOUNT; i++ )); do
+  #     printf " $(($i+1)) ${array[$i-1]}  off " >> .menubuildfile
+  #     echo $(($i+1)) ${array[$i-1]}
+  # done
+  #
+  # LIBS=$(dialog --file .menubuildfile 3>&1 1>&2 2>&3)
+  # echo "libs"$LIBS
+  # echo $array
+  # for i in $LIBS
+  # do
+  #   touch "src/${array[$i-1]}"
+  #   echo $i" i"
+  # done
 
-  echo -n '--checklist "Select Libraries To Compile" 0 0 '$LIBSCOUNT >> .menubuildfile
-  array=($(ls src))
-  for (( i = 0; i < $LIBSCOUNT; i++ )); do
-      printf " $(($i+1)) ${array[i-1]}  off " >> .menubuildfile
-      echo $(($i+1)) ${array[i-1]}
+  # Clean up source folders
+  rm -rf src/*/.en
+
+  # Make the menu builder files
+  rm -rf .menubuildfile && touch .menubuildfile
+
+  # Get The Ammount Of libraries we have
+  LIBSCOUNT=$(ls -1 ./src/ | wc -l)
+
+  # Echo the begining of the command without a newline and esaping correctly
+  echo -ne "--checklist \"Select Libraries To Compile\" 0 0 $LIBSCOUNT " >> .menubuildfile
+
+  #Build a dialog
+  LIBRARIES=$(ls src/)
+  COUNT=1
+  for lib in $LIBRARIES
+  do
+    echo -ne "$COUNT \"$lib\" off " >> .menubuildfile
+    COUNT=$(($COUNT+1))
   done
 
-  LIBS=$(dialog --file .menubuildfile 3>&1 1>&2 2>&3)
-  echo "libs"$LIBS
-  echo $array
-  for i in $LIBS
+  #Get output of dialog and
+  OUTPUT=$(dialog --file .menubuildfile 3>&1 1>&2 2>&3)
+  OUTARR=($OUTPUT)
+  LIBARR=($LIBRARIES)
+  for i in $OUTARR
   do
-    ./mkruntime enlib "${array[i-1]}"
-    echo ${array[i-1]} $i
+    echo -n "" > src/${LIBARR[$i-1]}/.en
   done
 }
 
