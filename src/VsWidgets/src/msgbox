@@ -1,0 +1,24 @@
+VsWidgets.msgbox(){
+	case "$DISPTECH" in
+	
+		"X11")
+			if [ "$ICON" != "" ]
+			then
+				zenity --title="$2" --name="$TITLE" --icon="$ICON" --info --text="$1"
+			else
+				zenity --title="$2" --name="$TITLE" --info --text="$1"
+				
+			fi
+		;;
+		"DIALOG")
+			dialog --title "$2" --backtitle "$TITLE" --infobox "$1" 0 0
+		;;
+		"TEXT")
+			clear
+			echo -e "$TITLE:$2\n\n$1"
+		;;
+		*)
+		return 1
+		;;
+	esac
+}
