@@ -93,7 +93,6 @@ selectLibsFallback(){
     echo "$COUNT) $lib"
   done
 
-  #Get output of dialog and
   read OUTPUT
   LIBARR=($LIBRARIES)
   OLDIFS=$IFS
