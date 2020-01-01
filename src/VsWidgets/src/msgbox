@@ -16,6 +16,7 @@ VsWidgets.msgbox(){
 		"TEXT")
 			clear
 			echo -e "$TITLE:$2\n\n$1"
+			echo "Press Any Key To Continue"read -n1
 		;;
 		*)
 		throw "DISP NOT INITIALISED"

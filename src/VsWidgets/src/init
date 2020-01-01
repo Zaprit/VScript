@@ -1,21 +1,21 @@
 VsWidgets.initWin(){
-	TITLE="$1"
-	DISPTECH="TEXT"
+	var TITLE="$1"
+	var DISPTECH="TEXT"
 	if which dialog > /dev/null
 	then
-		DISPTECH="DIALOG"
+		var DISPTECH="DIALOG"
 	fi
 	if which zenity > /dev/null
 	then
 		if [ "$DISPLAY" != "" ]
 		then
-			DISPTECH="X11"
+			var DISPTECH="X11"
 		fi
 		if [ "$2" != "" ]
 		then
 			if [ -e "$2" ]
 			then
-				ICON="$2"
+				var ICON="$2"
 			fi 
 		fi
 	fi

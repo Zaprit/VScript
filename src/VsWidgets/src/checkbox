@@ -14,13 +14,13 @@ VsWidgets.checkBox(){
                 # Echo the begining of the command without a newline and esaping correctly
                 echo -ne "--checklist \"$TITLE\" 0 0 $LIBSCOUNT --backtitle \"$BACKTITLE\" " >> .menubuildfile
 
-                COUNT=1
+                var COUNT=1
                 for ent in $@
                 do
                   echo -ne "$COUNT \"$lib\" off " >> .menubuildfile
-                  COUNT=$(($COUNT+1))
+                  var COUNT=$(($COUNT+1))
                 done
-                OUTPUT=$(dialog --file .menubuildfile 3>&1 1>&2 2>&3)
+                var OUTPUT=$(dialog --file .menubuildfile 3>&1 1>&2 2>&3)
                 return $OUTPUT
 
 
@@ -44,20 +44,20 @@ VsWidgets.checkBox(){
                   # Echo the begining of the command without a newline and esaping correctly
                   echo -ne "--checklist \"$TITLE\" 0 0 $LIBSCOUNT --backtitle \"$BACKTITLE\" " >> .menubuildfile
 
-                  COUNT=1
+                  var COUNT=1
                   for ent in $@
                   do
                     echo -ne "$COUNT \"$lib\" off " >> .menubuildfile
-                    COUNT=$(($COUNT+1))
+                    var COUNT=$(($COUNT+1))
                   done
-                  OUTPUT=$(dialog --file .menubuildfile 3>&1 1>&2 2>&3)
+                  var OUTPUT=$(dialog --file .menubuildfile 3>&1 1>&2 2>&3)
                   return $OUTPUT
                 ;;
                 "TEXT")
                         clear
                         echo $TITLE
+                        # Make a line the length of the screen
                         for (( i = 0; i < $(tput cols); i++ )); do; echo -n "—"; done
-                        for
 
                 ;;
                 *)
