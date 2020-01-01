@@ -8,28 +8,24 @@ VsWidgets.checkBox(){
                 # Make the menu builder files
                 rm -rf .menubuildfile && touch .menubuildfile
 
-                # Get The Ammount Of libraries we have
-
-
                 # Echo the begining of the command without a newline and esaping correctly
                 echo -ne "--checklist \"$TITLE\" 0 0 $LIBSCOUNT --backtitle \"$BACKTITLE\" " >> .menubuildfile
 
                 var COUNT=1
                 for ent in $@
                 do
-                  echo -ne "$COUNT \"$lib\" off " >> .menubuildfile
+                  echo -ne "$COUNT \"$ent\" off " >> .menubuildfile
                   var COUNT=$(($COUNT+1))
                 done
-                var OUTPUT=$(dialog --file .menubuildfile 3>&1 1>&2 2>&3)
-                return $OUTPUT
+                
 
 
 
                         if [ "$ICON" != "" ]
                         then
-                                zenity --title="$2" --name="$TITLE" --icon="$ICON" --info --text="$1"
+                                var OUTPUT=$(zenity --title="$2" --name="$TITLE" --icon="$ICON" --info --text="$1.menubuildfile 3>&1 1>&2 2>&3)
                         else
-                                zenity --title="$2" --name="$TITLE" --info --text="$1"
+                                zenity --title="$TITLE" --name="$TITLE" --info --text="$OUTPUT"
 
                         fi
                 ;;
