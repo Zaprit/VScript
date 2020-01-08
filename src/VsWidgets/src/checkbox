@@ -23,7 +23,7 @@ VsWidgets.checkBox(){
 
                         if [ "$ICON" != "" ]
                         then
-                                var OUTPUT=$(zenity --title="$2" --name="$TITLE" --icon="$ICON" --info --text="$1.menubuildfile 3>&1 1>&2 2>&3)
+                                var OUTPUT=$(zenity --title="$2" --name="$TITLE" --icon="$ICON" --list --checklist --text="$1.menubuildfile 3>&1 1>&2 2>&3)
                         else
                                 zenity --title="$TITLE" --name="$TITLE" --info --text="$OUTPUT"
 
