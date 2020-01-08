@@ -1,7 +1,7 @@
 #!/bin/bash
 source vs-version-data
 info(){
-echo -e "VScript runtime builder V0.5 for VScript $VS_VERSION $VS_CODENAME\n"
+echo -e "VScript runtime builder V1.0 for VScript $VS_VERSION $VS_CODENAME\n"
 }
 
 buildlibs(){
@@ -53,4 +53,34 @@ dislib(){
  rm src/$1/.en
 }
 
+lslibs(){
+ for i in $(ls src)
+  if [ -e src/$i/.en ]
+  then
+   ENLIBS=$ENLIBS\n$i
+  else
+   DISLIBS=$DISLIBS\n$i
+  fi
+ done
+ echo "Enabled Libraries:"
+ echo -e "$ENLIBS"
+}
+
+help(){
+echo "VScript mkruntime 1.0"
+echo "help      —— Shows this help"
+echo "clean     —— Cleans Runtime"
+echo "build     —— Builds vsruntime.base"
+echo "buildlibs —— Build all enabled libraries in the src folder"
+echo "enlib     —— Enable library"
+echo "dislib    —— Disable library"
+echo "lslibs    —— List Libraries"
+}
+
+
 $1
+EXIT_STATUS=$?
+if [ "$1" == "" ] || [ "$EXIT_STATUS" != "0" ]
+then
+help
+fi

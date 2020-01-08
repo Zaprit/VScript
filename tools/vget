@@ -1,24 +1,23 @@
 #!/bin/bash
 VS_URL="https://git.vorax.org/Henry/VScript.git"
 
-dl(){
-rm -rf VScript
-git clone $VS_URL 2>/dev/null &
-pid=$! # Process Id of the previous running command
-spin='-\|/'
-i=0
-while kill -0 $pid 2>/dev/null
-do
-  i=$(( (i+1) %4 ))
-  textbox "Download Manager" "Downloading VScript\n${spin:i:1}"
-  sleep .1
-done
+isFallback(){
+  if [ "$FALLBACK" == "true" ]
+  then
+    return 1
+  else
+    if which dialog
+    then
+      return 0
+    else
+      return 1
+    fi
+  fi
 }
 
 textBox(){
   if isFallback
   then
-
     dialog --backtitle "Vget" --title "$1" --infobox "$2" 0 0
   else
     clear
@@ -27,7 +26,19 @@ textBox(){
   fi
 }
 
-
+dl(){
+  rm -rf VScript
+  git clone $VS_URL 2>/dev/null &
+  pid=$! # Process Id of the previous running command
+  spin='-\|/'
+  i=0
+  while kill -0 $pid 2>/dev/null
+  do
+    i=$(( (i+1) %4 ))
+    textBox "Download Manager" "Downloading VScript\n${spin:i:1}"
+    sleep .1
+  done
+}
 
 getLibs(){
   for i in $(find src -maxdepth 1 -mindepth 1)
@@ -36,19 +47,7 @@ getLibs(){
   done
 }
 
-isFallback(){
-  if [ "$FALLBACK" == "true" ]
-  then
-    return 0
-  else
-    if which dialog
-    then
-      return 1
-    else
-      return 0
-    fi
-  fi
-}
+
 
 selectLibs(){
   rm -rf src/*/.en
@@ -91,6 +90,7 @@ selectLibsFallback(){
   for lib in $LIBRARIES
   do
     echo "$COUNT) $lib"
+    COUNT=$(expr $COUNT + 1)
   done
 
   read OUTPUT
@@ -109,7 +109,8 @@ OUT=$(dialog --backtitle "Vget" \
 --menu "Select VScript Components:" 0 0 4 \
 1 "Get Latest VScript Release" \
 2 "Don't Compile source" \
-3 "Exit" \
+3 "Compile VScript source" \
+4 "Exit" \
 3>&1 1>&2 2>&3)
 
 
@@ -138,6 +139,27 @@ case $OUT in
     exit
 		;;
 	"3")
+    if [ ! -e "mkruntime" ]
+    then
+      textbox "ERROR: Not in VScript source directory" "Not in a working VScript source setup. Exiting"
+      exit
+    fi
+
+    if isFallback
+    then
+      selectLibsFallback
+    else
+      selectLibs
+    fi
+    textBox "Build Info" "`./mkruntime buildlibs`"
+    sleep 1s
+		textBox "Build Info" "`./mkruntime build`"
+    sleep 1s
+		rm README.md help-template updatevramen vs-version-data
+    sleep 1s
+    textBox "Build Info" "Done"
+    ;;
+	"4")
 		exit
 		;;
 esac
