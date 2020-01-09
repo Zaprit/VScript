@@ -120,9 +120,9 @@ case $OUT in
 		cd VScript
     if isFallback
     then
-      selectLibsFallback
-    else
       selectLibs
+    else
+      selectLibsFallback
     fi
     textBox "Build Info" "`./mkruntime buildlibs`"
     sleep 1s
