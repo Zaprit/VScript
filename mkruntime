@@ -55,6 +55,7 @@ dislib(){
 
 lslibs(){
  for i in $(ls src)
+ do
   if [ -e src/$i/.en ]
   then
    ENLIBS=$ENLIBS\n$i
