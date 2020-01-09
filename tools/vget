@@ -106,9 +106,9 @@ selectLibsFallback(){
 }
 
 OUT=$(dialog --backtitle "Vget" \
---menu "Select VScript Components:" 0 0 4 \
-1 "Get Latest VScript Release" \
-2 "Don't Compile source" \
+--menu "Select VScript components:" 0 0 4 \
+1 "Get latest VScript source" \
+2 "Don't compile source" \
 3 "Compile VScript source" \
 4 "Exit" \
 3>&1 1>&2 2>&3)
