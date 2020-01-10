@@ -1,0 +1,8 @@
+loadConfig{
+ if [  ]
+ then
+  source ./build.conf  
+ else
+  throw "in loadConfig: 'Error Loading Config'"
+ fi
+}

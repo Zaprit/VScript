@@ -47,7 +47,7 @@ then
     cat src/$class >> $APP_NAME.vmod
     echo "Added class $class to module"
   done
-  echo 'loadedMods="$loadedMods\n'"$APP_NAME V$APP_VERSION: $APP_FUZZY_NAME" >> $APP_NAME.vmod
+  echo 'loadedMods="$loadedMods\n'"$APP_NAME V$APP_VERSION: $APP_FUZZY_NAME"'"' >> $APP_NAME.vmod
 fi
 
 if [ "$APP_TYPE" == "app" ]
@@ -66,12 +66,14 @@ then
   if [ -e include/vsruntime.base ]
   then
     cat include/vsruntime.base >> $APP_NAME.vs
+  else
+    rm -rf $APP_NAME.vs
+    echo "ERROR: Missing runtime."
+    exit
   fi
 
 
-  if [ -d mods ]
-  then
-    for mod in $(ls mods)
+    for mod in $(ls include/*.vmod)
     do
       cat mods/$mod >> $APP_NAME.vs
     done
@@ -86,7 +88,9 @@ then
     cat src/$class >> $APP_NAME.vs
 
   done
-
+  echo 'if [ "$1" -ne "--getdata" ]' >> $APP_NAME.vs
+  echo 'then' >> $APP_NAME.vs
   echo 'main $@' >> $APP_NAME.vs
+  echo 'fi' >> $APP_NAME.vs
   chmod 777 $APP_NAME.vs
 fi
