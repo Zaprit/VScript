@@ -1,8 +1,16 @@
 loadConfig{
- if [  ]
+ VSC_LIB_PATH=/usr/lib/VScript/libs
+ VSC_PROG_NAME="Untitled-VSC-Application"
+ VSC_PROG_TYPE="app"
+ if [ -e /etc/VScript/$VS_VERSION/VSC-build.conf ]
+ then 
+ source /etc/VScript/$VS_VERSION/VSC-build.conf
+ fi
+ if [ -e ./build.conf ]
  then
   source ./build.conf  
  else
-  throw "in loadConfig: 'Error Loading Config'"
+  echo "Missing build.conf: useing default config"
  fi
+ echo "Loaded Configuration"
 }

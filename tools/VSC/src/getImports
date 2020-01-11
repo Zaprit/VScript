@@ -1,0 +1,4 @@
+getImports(){
+grep '^import.' $1
+
+}
