@@ -74,7 +74,7 @@ selectLibs(){
   OUTPUT=$(dialog --file .menubuildfile 3>&1 1>&2 2>&3)
   OUTARR=($OUTPUT)
   LIBARR=($LIBRARIES)
-  for i in $OUTARR
+  for i in $OUTPUT
   do
     echo -n "" > src/${LIBARR[$i-1]}/.en
   done
@@ -105,14 +105,25 @@ selectLibsFallback(){
   unset OLDIFS
 }
 
-OUT=$(dialog --backtitle "Vget" \
---menu "Select VScript components:" 0 0 4 \
-1 "Get latest VScript source" \
-2 "Don't compile source" \
-3 "Compile VScript source" \
-4 "Exit" \
-3>&1 1>&2 2>&3)
-
+if isFallback
+then
+  OUT=$(dialog --backtitle "Vget" \
+  --menu "Select Option:" 0 0 4 \
+  1 "Download and compile latest VScript source" \
+  2 "Don't compile source" \
+  3 "Compile VScript source" \
+  4 "Exit" \
+  3>&1 1>&2 2>&3)
+else
+  echo "Vget Downloader tool"
+  echo "Select Option"
+  echo "1) Get latest VScript source"
+  echo "2) Get VScript but don't compile"
+  echo "3) Compile VScript source"
+  echo "4) Quit"
+  echo "Enter Option: (1-4) "
+  read OUT
+fi
 
 case $OUT in
 	"1")
