@@ -141,7 +141,7 @@ case $OUT in
 	"3")
     if [ ! -e "mkruntime" ]
     then
-      textbox "ERROR: Not in VScript source directory" "Not in a working VScript source setup. Exiting"
+      textBox "ERROR: Not in VScript source directory" "Not in a working VScript source setup. Exiting"
       exit
     fi
 
