@@ -1,0 +1,7 @@
+VS_VERSION=1.2
+VS_CODENAME="Cayenne"
+#Pregenerated code ahead. Here be dragons?
+if [ "$1" == "-h" ]
+then
+  echo "VScript Version $VS_VERSION $VS_CODENAME"
+fi
