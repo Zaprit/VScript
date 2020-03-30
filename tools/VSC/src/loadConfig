@@ -1,16 +1,21 @@
-loadConfig{
+VSC.loadConfig{
+ # Default Configuration
  VSC_LIB_PATH=/usr/lib/VScript/libs
  VSC_PROG_NAME="Untitled-VSC-Application"
  VSC_PROG_TYPE="app"
+
+ # Load System Configuration
  if [ -e /etc/VScript/$VS_VERSION/VSC-build.conf ]
  then 
  source /etc/VScript/$VS_VERSION/VSC-build.conf
  fi
+
+ # Project Config
  if [ -e ./build.conf ]
  then
   source ./build.conf  
  else
-  echo "Missing build.conf: useing default config"
+  echo "Missing build.conf: using default config"
  fi
  echo "Loaded Configuration"
 }

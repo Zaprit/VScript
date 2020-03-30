@@ -1,4 +1,4 @@
 getImports(){
-grep '^import.' $1
+echo $(grep '^import.' $1 | sed 's/import //g')
 
 }
