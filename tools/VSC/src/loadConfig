@@ -1,4 +1,4 @@
-VSC.loadConfig{
+VSC.loadConfig(){
  # Default Configuration
  VSC_LIB_PATH=/usr/lib/VScript/libs
  VSC_PROG_NAME="Untitled-VSC-Application"
@@ -13,7 +13,9 @@ VSC.loadConfig{
  # Project Config
  if [ -e ./build.conf ]
  then
+  LIBPATHOLD=$VSC_LIB_PATH
   source ./build.conf  
+  $VSC_LIB_PATH="$LIBPATHOLD $VSC_LIB_PATH"
  else
   echo "Missing build.conf: using default config"
  fi

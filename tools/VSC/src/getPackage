@@ -1,0 +1,3 @@
+VSC.getPackage(){
+echo $(grep '^package.' $1 | sed 's/package //g')
+}

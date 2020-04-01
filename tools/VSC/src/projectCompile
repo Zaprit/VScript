@@ -1,0 +1,7 @@
+VSC.projectCompile(){
+ echo "Build Configuration Found... Compiling Project"
+ for f in $(ls $VSC_SRC_LOCATION/*.vss)
+ do
+  compileSource $f
+ done
+}

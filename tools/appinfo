@@ -1,5 +1,5 @@
 #!/bin/bash
-source $1
+source $1 --getdata
 echo "Appinfo tool 1.0"
 echo "  App Metadata:"
 echo "  Name: $APP_NAME"

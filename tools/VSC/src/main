@@ -1,5 +1,26 @@
 main(){
- loadConfig
+ echo "Welcome to $APP_FUZZY_NAME $APP_VERSION"
+ echo "loading configuration for $APP_NAME"
+ VSC.loadConfig
  
-
+ if [ -f "build.conf" ] && [ $# == 0 ] || [ "$1" == "-p" ]
+ then
+  VSC.projectCompile
+  echo "Finished Compiling $VSC_PROG_NAME"
+ else
+  if [ $# > 1 ]
+  then 
+   if [ $1 == "-I" ]
+   then
+    if [ -d "$2" ]
+    then
+     VSC_LIB_PATH=$2
+    fi
+   fi
+   VSC.compileSource "${@: -1}"
+  else
+   VSC.compileSource $1
+  fi
+  echo "Finished Compiling $1"
+ fi
 }
