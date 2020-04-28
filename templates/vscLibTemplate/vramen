@@ -1,16 +1,16 @@
 #!/bin/bash
 
 #Application/Module configuration
-APP_NAME="vsc"
-APP_VERSION="0.5 beta"
-APP_TYPE="app"
-APP_FUZZY_NAME="VScript Compiler"
-#Past here... No touchy
+APP_NAME=""
+APP_VERSION=""
+APP_TYPE=""
+APP_FUZZY_NAME=""
+#Past here... No touchey
 
 appdata(){
   echo 'APP_NAME='"\"$APP_NAME\"" >> $1
   echo 'APP_FUZZY_NAME='"\"$APP_FUZZY_NAME\"" >> $1
-  echo 'APP_VERSION='"\"$APP_VERSION\"" >> $1
+  echo 'APP_VERSION='$APP_VERSION >> $1
   echo '' >> $1
   echo '#Pregenerated code ahead. Here be dragons?' >> $1
 }
@@ -26,15 +26,15 @@ then
      echo "disable $APP_FUZZY_NAME" && rm -f ."en" && exit
   fi
   #clean out old blob
-  rm -f $APP_NAME.vlib
-  touch $APP_NAME.vlib
+  rm -f out.vlib
+  touch out.vlib
 
   #Compile classes
   for class in $(ls src); do
-    cat src/$class >> $APP_NAME.vlib
+    cat src/$class >> out.vlib
     echo "Added class $class to library"
   done
-  echo 'loadedLibs="$loadedLibs\n'"$APP_NAME V$APP_VERSION: $APP_FUZZY_NAME"'"' >> $APP_NAME.vlib
+  echo 'loadedLibs="$loadedLibs\n'"$APP_NAME V$APP_VERSION: $APP_FUZZY_NAME"'"' >> out.vlib
 fi
 
 if [ "$APP_TYPE" == "mod" ]
@@ -53,32 +53,31 @@ fi
 if [ "$APP_TYPE" == "app" ]
 then
 
-  rm -f $APP_NAME
-  touch "$APP_NAME"
-  echo '#!/bin/bash' >> $APP_NAME
+  rm -f *.vs
+  touch "$APP_NAME.vs"
+  echo '#!/bin/bash' >> $APP_NAME.vs
   echo "Created empty app bundle"
 
 
 
-  appdata "$APP_NAME"
+  appdata "$APP_NAME.vs"
   echo "Added app data to bundle"
 
   if [ -e include/vsruntime.base ]
   then
-    cat include/vsruntime.base >> $APP_NAME
+    cat include/vsruntime.base >> $APP_NAME.vs
   else
-    rm -rf $APP_NAME
+    rm -rf $APP_NAME.vs
     echo "ERROR: Missing runtime."
     exit
   fi
 
-if [ $(ls -1 *.vmod 2>/dev/null | wc -l) != 0 ]
-then
+
     for mod in $(ls include/*.vmod)
     do
-      cat $mod >> $APP_NAME
+      cat mods/$mod >> $APP_NAME.vs
     done
-fi
+  fi
   if [ ! -e src/main ]
   then
     echo "Main class not found, exiting"
@@ -86,15 +85,12 @@ fi
   fi
   for class in $(ls src)
   do
-    cat src/$class >> $APP_NAME
-    echo "Compiling: $class"
+    cat src/$class >> $APP_NAME.vs
+
   done
-  echo "Finished compiling"
-  echo "Adding appinfo Compatibility"
-  echo 'if [ "$1" != "--getdata" ]' >> $APP_NAME
-  echo 'then' >> $APP_NAME
-  echo 'main $@' >> $APP_NAME
-  echo 'fi' >> $APP_NAME
-  chmod 777 $APP_NAME
-  echo done
+  echo 'if [ "$1" -ne "--getdata" ]' >> $APP_NAME.vs
+  echo 'then' >> $APP_NAME.vs
+  echo 'main $@' >> $APP_NAME.vs
+  echo 'fi' >> $APP_NAME.vs
+  chmod 777 $APP_NAME.vs
 fi

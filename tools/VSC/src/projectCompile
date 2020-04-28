@@ -2,6 +2,11 @@ VSC.projectCompile(){
  echo "Build Configuration Found... Compiling Project"
  for f in $(ls $VSC_SRC_LOCATION/*.vss)
  do
-  compileSource $f
+  echo Compiling $f
+  VSC.compileSource $f
  done
+ if [ "$VSC_PROG_TYPE" == "app" ]
+ then
+  VSC.commitMetadata $VSC_PROG_NAME.vsa
+ fi
 }

@@ -1,0 +1,59 @@
+dump(){
+echo "Crash Dump"
+echo "VScript Version: $VS_VERSION $VS_CODENAME"
+echo "Loaded Libraries:"
+for lib in $loadedLibs
+do
+echo -ne $lib
+done
+
+echo
+echo "Loaded Modules:"
+for mod in $loadedMods
+do
+echo -ne $mod
+done
+
+echo
+echo "Variables:"
+for var in $vars
+do
+echo -ne $var
+done
+
+echo
+echo -e "\nApp metadata:"
+echo "  App name: $APP_NAME"
+echo "  App display name: $APP_FUZZY_NAME"
+echo "  App version: $APP_VERSION"
+}
+throw(){
+echo "ERROR: $1 in program $APP_NAME"
+echo "Error Detected... Dumping program data"
+dump
+exit 1
+}
+var(){
+vars="$vars\n$1"
+eval "$1"
+}
+loadedLibs="$loadedLibs\ncore V1.0: VScript Core Module"
+append(){
+ echo "$1$2$3$4$5$6$7$8"
+}
+loadedLibs="$loadedLibs\nstr V1.0: VScript Core Module"
+
+import core
+import str
+
+main(){
+echo $(append o h a i  dave)
+throw "TEST ERROR"
+}
+loadedLibs="core
+str"
+loadedMods="n/a due to VSC compilation"
+if [ "$1" != "--getdata" ]
+then
+main $@
+fi

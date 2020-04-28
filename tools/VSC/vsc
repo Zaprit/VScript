@@ -1,7 +1,7 @@
 #!/bin/bash
-APP_NAME="VSC"
+APP_NAME="vsc"
 APP_FUZZY_NAME="VScript Compiler"
-APP_VERSION="0.1 beta"
+APP_VERSION="0.5 beta"
 
 #Pregenerated code ahead. Here be dragons?
 VS_VERSION=1.2
@@ -55,12 +55,19 @@ loadedLibs="$loadedLibs\ncore V1.0: VScript Core Module"
 
 # end of library core 
 
+VSC.commitMetadata(){
+ echo "APP_NAME=$VSC_PROG_NAME" >> $1
+ echo "APP_FUZZY_NAME=$VSC_PROG_DISPLAY_NAME" >> $1
+ echo "APP_VERSION=$VSC_PROG_VERSION" >> $1
+ echo "VS_VERSION=$VS_VERSION" >> $1
+ echo "VS_CODENAME=$VS_CODENAME" >> $1
+}
 VSC.compileSource(){
  # If we are doing a single file compile
  if ! [ -f build.conf ]
  then
   SRC_FILE=${1%.*}
-  rm $SRC_FILE.vsa    
+  rm $SRC_FILE.vsa
   # Import Handling
   # Get all imports from file after making sure that we have imports.
   if [ "$(VSC.getImports $SRC_FILE.vss)" != "" ]
@@ -68,13 +75,13 @@ VSC.compileSource(){
    for import in $(VSC.getImports "$SRC_FILE".vss) 
    do
     # If the import actually exists
-    if resolveImport "$import"
+    if VSC.resolveImport "$import"
     then
      # Capture the import location, Write down that we found it, and if we haven't already imported it then import it into the class
-     IMPORT_LOC = $(VSC.resolveImportPath "$import")
+     IMPORT_LOC=$(VSC.resolveImportPath "$import")
      if ! $(echo $ADDEDIMPORTS | grep $import)
      then 
-      ADDEDIMPORTS = "$ADDEDIMPORTS $import"
+      ADDEDIMPORTS="$ADDEDIMPORTS $import"
       cat $IMPORT_LOC >> $SRC_FILE.vsa
      fi
     fi
@@ -83,7 +90,6 @@ VSC.compileSource(){
   
   cp $SRC_FILE.vss $SRC_FILE.vsa
 
-  echo "loadedLibs=\"$(echo $ADDEDIMPORTS | tr " " "\n")\"" >> $SRC_FILE.vsa
   echo "loadedMods=\"n/a due to VSC compilation\"" >> $SRC_FILE.vsa
 
   echo 'if [ "$1" != "--getdata" ]' >> $SRC_FILE.vsa
@@ -95,31 +101,39 @@ VSC.compileSource(){
   # Remove all comments from output class
   sed -i '/^#/d' $SRC_FILE.vsa
   sed -i '/^\<package\>/d' $SRC_FILE.vsa
+  sed -i '/^\<import\>/d' $SRC_FILE.vsa
+ 
+  VSC.commitMetadata $SRC_FILE
+
  #if we are doing a project compile
  else 
   SRC_FILE=$VSC_PROG_NAME
 
   # Import Handling
   # Get all imports from file after making sure that we have imports.
-  if [ "$(VSC.getImports $SRC_FILE)" != "" ]
+  if [ "$(VSC.getImports $1)" != "" ]
   then
-   for import in $(VSC.getImports "$SRC_FILE") 
+   for import in $(VSC.getImports "$1") 
    do
     # If the import actually exists
-    if resolveImport "$import"
+    if VSC.resolveImport "$import"
     then
      # Capture the import location, Write down that we found it, and if we haven't already imported it then import it into the class
-     IMPORT_LOC = $(VSC.resolveImportPath "$import")
+     IMPORT_LOC=$(VSC.resolveImportPath "$import")
      if ! $(echo $ADDEDIMPORTS | grep $import)
      then 
-     ADDEDIMPORTS = "$ADDEDIMPORTS $import"
+     ADDEDIMPORTS="$ADDEDIMPORTS $import"
      cat $IMPORT_LOC >> $VSC_PROG_NAME.vsa
      fi
     fi
    done
   fi
 
+  cat $1 >> $SRC_FILE.vsa
+
   # Remove all comments from output class
+    sed -i '/^\<import\>/d' $SRC_FILE.vsa
+
   sed -i '/^\<package\>/d' $SRC_FILE.vsa
   sed -i '/^#/d' $VSC_PROG_NAME.vsa    
   echo "loadedLibs=\"$(echo $ADDEDIMPORTS | tr " " "\n")\"" >> $SRC_FILE.vsa
@@ -133,7 +147,7 @@ VSC.compileSource(){
  fi
 }
 VSC.getImports(){
-echo $(grep '^import.' $1 | sed 's/import //g')
+echo $(grep '^import.' $1 | sed 's/import //g' | tr ' ' '\n')
 }
 VSC.getPackage(){
 echo $(grep '^package.' $1 | sed 's/package //g')
@@ -141,7 +155,9 @@ echo $(grep '^package.' $1 | sed 's/package //g')
 VSC.loadConfig(){
  # Default Configuration
  VSC_LIB_PATH=/usr/lib/VScript/libs
- VSC_PROG_NAME="Untitled-VSC-Application"
+ VSC_PROG_NAME="untitled_app"
+ VSC_PROG_VERSION="1.0"
+ VSC_PROG_DISPLAY_NAME="Untitled-VSC-Application"
  VSC_PROG_TYPE="app"
 
  # Load System Configuration
@@ -155,7 +171,7 @@ VSC.loadConfig(){
  then
   LIBPATHOLD=$VSC_LIB_PATH
   source ./build.conf  
-  $VSC_LIB_PATH="$LIBPATHOLD $VSC_LIB_PATH"
+  VSC_LIB_PATH="$LIBPATHOLD $VSC_LIB_PATH"
  else
   echo "Missing build.conf: using default config"
  fi
@@ -165,7 +181,12 @@ main(){
  echo "Welcome to $APP_FUZZY_NAME $APP_VERSION"
  echo "loading configuration for $APP_NAME"
  VSC.loadConfig
- 
+ if [ "$1" == "make" ]
+ then
+  VSC.makeConfig
+  exit
+ fi
+
  if [ -f "build.conf" ] && [ $# == 0 ] || [ "$1" == "-p" ]
  then
   VSC.projectCompile
@@ -186,15 +207,63 @@ main(){
   fi
   echo "Finished Compiling $1"
  fi
+ rm -f 1
+}
+VSC.makeConfig(){
+ touch Makefile
+ touch build.conf
+
+ echo -n "Project name: "
+ read name
+ name=$(echo $name | tr ' ' '-')
+ echo -n "Project display name: "
+ read display_name
+ echo -n "Project version: "
+ read version
+ right="0"
+
+ while [ "$right" != "1" ]
+ do
+  echo -n "Project type (app, lib): "
+  read type
+  if [ "$type" == "app" ] || [ "$type" == "lib" ]
+  then
+   right="1"
+  else
+   echo "Invalid type please select app or lib"
+   right="0"
+  fi
+ done
+
+ echo -n "Project source folder name (relative to here): "
+ read src
+
+ if ! [ -d "$src" ]
+ then
+  mkdir $src
+ fi
+ echo "Building makefile for $display_name"
+
+ echo "VSC_PROG_NAME=$name" >> build.conf
+ echo "VSC_PROG_DISPLAY_NAME=\"$display_name\"" >> build.conf
+ echo "VSC_PROG_VERSION=\"$version\"" >> build.conf
+ echo "VSC_PROG_TYPE=$type" >> build.conf
+ echo "VSC_SRC_LOCATION=\"$(pwd)/$src\"" >> build.conf
+	
+ echo "#Autogenerated by VSC" >> Makefile
+ echo "build:" >> Makefile
+ echo -e "\tvsc" >> Makefile
 }
 VSC.projectCompile(){
  echo "Build Configuration Found... Compiling Project"
  for f in $(ls $VSC_SRC_LOCATION/*.vss)
  do
-  compileSource $f
+  echo Compiling $f
+  VSC.compileSource $f
  done
+ VSC.commitMetadata $VSC_PROG_NAME
 }
-resolveImport(){
+VSC.resolveImport(){
  if [ "$1" == "" ]
  then
   throw "no import name specified in VSC:resolveImport"
@@ -203,23 +272,24 @@ resolveImport(){
 
  for loc in $VSC_LIB_PATH
  do
-  if [ -f "$loc/$1.vsl"]
+  if [ -f "$loc/$1.vsl" ]
   then
+   echo "import found"
    return 0
   fi
  done
  throw "invalid import: $1 in VSC:resolveImport"
 }
-resolveImport(){
+VSC.resolveImportPath(){
  if [ "$1" == "" ]
  then
   throw "no import name specified in VSC:resolveImportPath"
   return 1
  fi
-
+ 
  for loc in $VSC_LIB_PATH
  do
-  if [ -f "$loc/$1.vsl"]
+  if [ -f "$loc/$1.vsl" ]
   then
    echo $loc/$1.vsl
    return 0

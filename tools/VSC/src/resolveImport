@@ -1,4 +1,4 @@
-resolveImport(){
+VSC.resolveImport(){
  if [ "$1" == "" ]
  then
   throw "no import name specified in VSC:resolveImport"
@@ -7,8 +7,9 @@ resolveImport(){
 
  for loc in $VSC_LIB_PATH
  do
-  if [ -f "$loc/$1.vsl"]
+  if [ -f "$loc/$1.vsl" ]
   then
+   echo "import found"
    return 0
   fi
  done

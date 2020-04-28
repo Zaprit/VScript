@@ -2,7 +2,12 @@ main(){
  echo "Welcome to $APP_FUZZY_NAME $APP_VERSION"
  echo "loading configuration for $APP_NAME"
  VSC.loadConfig
- 
+ if [ "$1" == "make" ]
+ then
+  VSC.makeConfig
+  exit
+ fi
+
  if [ -f "build.conf" ] && [ $# == 0 ] || [ "$1" == "-p" ]
  then
   VSC.projectCompile
@@ -23,4 +28,5 @@ main(){
   fi
   echo "Finished Compiling $1"
  fi
+ rm -f 1
 }

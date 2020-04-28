@@ -1,0 +1,13 @@
+
+
+main(){
+echo "i have no soul" REE
+}
+
+
+loadedLibs=""
+loadedMods="n/a due to VSC compilation"
+if [ "$1" != "--getdata" ]
+then
+main $@
+fi

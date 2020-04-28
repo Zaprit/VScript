@@ -1,0 +1,4 @@
+append(){
+ echo "$1$2"
+}
+loadedLibs="$loadedLibs\nstr V1.0: VScript Core Module"

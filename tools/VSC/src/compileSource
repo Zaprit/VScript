@@ -3,7 +3,7 @@ VSC.compileSource(){
  if ! [ -f build.conf ]
  then
   SRC_FILE=${1%.*}
-  rm $SRC_FILE.vsa    
+  rm $SRC_FILE.vsa
   # Import Handling
   # Get all imports from file after making sure that we have imports.
   if [ "$(VSC.getImports $SRC_FILE.vss)" != "" ]
@@ -11,13 +11,13 @@ VSC.compileSource(){
    for import in $(VSC.getImports "$SRC_FILE".vss) 
    do
     # If the import actually exists
-    if resolveImport "$import"
+    if VSC.resolveImport "$import"
     then
      # Capture the import location, Write down that we found it, and if we haven't already imported it then import it into the class
-     IMPORT_LOC = $(VSC.resolveImportPath "$import")
+     IMPORT_LOC=$(VSC.resolveImportPath "$import")
      if ! $(echo $ADDEDIMPORTS | grep $import)
      then 
-      ADDEDIMPORTS = "$ADDEDIMPORTS $import"
+      ADDEDIMPORTS="$ADDEDIMPORTS $import"
       cat $IMPORT_LOC >> $SRC_FILE.vsa
      fi
     fi
@@ -26,7 +26,6 @@ VSC.compileSource(){
   
   cp $SRC_FILE.vss $SRC_FILE.vsa
 
-  echo "loadedLibs=\"$(echo $ADDEDIMPORTS | tr " " "\n")\"" >> $SRC_FILE.vsa
   echo "loadedMods=\"n/a due to VSC compilation\"" >> $SRC_FILE.vsa
 
   echo 'if [ "$1" != "--getdata" ]' >> $SRC_FILE.vsa
@@ -38,31 +37,39 @@ VSC.compileSource(){
   # Remove all comments from output class
   sed -i '/^#/d' $SRC_FILE.vsa
   sed -i '/^\<package\>/d' $SRC_FILE.vsa
+  sed -i '/^\<import\>/d' $SRC_FILE.vsa
+ 
+  VSC.commitMetadata $SRC_FILE
+
  #if we are doing a project compile
  else 
   SRC_FILE=$VSC_PROG_NAME
 
   # Import Handling
   # Get all imports from file after making sure that we have imports.
-  if [ "$(VSC.getImports $SRC_FILE)" != "" ]
+  if [ "$(VSC.getImports $1)" != "" ]
   then
-   for import in $(VSC.getImports "$SRC_FILE") 
+   for import in $(VSC.getImports "$1") 
    do
     # If the import actually exists
-    if resolveImport "$import"
+    if VSC.resolveImport "$import"
     then
      # Capture the import location, Write down that we found it, and if we haven't already imported it then import it into the class
-     IMPORT_LOC = $(VSC.resolveImportPath "$import")
+     IMPORT_LOC=$(VSC.resolveImportPath "$import")
      if ! $(echo $ADDEDIMPORTS | grep $import)
      then 
-     ADDEDIMPORTS = "$ADDEDIMPORTS $import"
+     ADDEDIMPORTS="$ADDEDIMPORTS $import"
      cat $IMPORT_LOC >> $VSC_PROG_NAME.vsa
      fi
     fi
    done
   fi
 
+  cat $1 >> $SRC_FILE.vsa
+
   # Remove all comments from output class
+    sed -i '/^\<import\>/d' $SRC_FILE.vsa
+
   sed -i '/^\<package\>/d' $SRC_FILE.vsa
   sed -i '/^#/d' $VSC_PROG_NAME.vsa    
   echo "loadedLibs=\"$(echo $ADDEDIMPORTS | tr " " "\n")\"" >> $SRC_FILE.vsa
