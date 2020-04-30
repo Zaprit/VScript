@@ -22,6 +22,10 @@ main(){
      VSC_LIB_PATH=$2
     fi
    fi
+   if [ "$1" == "-l" ]
+   then
+    VSC_APP_TYPE=lib
+   fi
    VSC.compileSource "${@: -1}"
   else
    VSC.compileSource $1

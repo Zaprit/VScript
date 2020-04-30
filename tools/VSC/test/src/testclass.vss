@@ -1,9 +1,0 @@
-package yolo
-
-import core
-import str
-
-main(){
-echo "ohai"
-throw "TEST ERROR"
-}
