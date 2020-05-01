@@ -1,6 +1,0 @@
-throw(){
-echo "ERROR: $1 in program $APP_NAME"
-echo "Error Detected... Dumping program data"
-dump
-exit 1
-}
