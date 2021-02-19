@@ -1,3 +1,12 @@
+throw(){
+if [ "$VS_DEBUGGER" == "null" ]
+then
+ echo "ERROR: $1 in program $APP_NAME"
+ echo "Error Detected... Dumping program data"
+ dump
+ exit 1
+fi
+}
 dump(){
 echo "Crash Dump"
 echo "VScript Version: $VS_VERSION $VS_CODENAME"

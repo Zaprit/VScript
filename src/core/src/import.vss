@@ -1,0 +1,15 @@
+if [ -e /etc/VScript/$VS_VERSION/VScript.conf ]
+then
+ source /etc/VScript/$VS_VERSION/VScript.conf
+fi 
+
+import(){
+for loc in $VSC_LIB_PATH
+ do
+  if [ -f "$loc/$1.vsl" ]
+  then
+   source $loc/$1.vsl
+   return 0
+  fi
+ done
+}
