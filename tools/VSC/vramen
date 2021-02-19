@@ -79,7 +79,7 @@ then
       cat $mod >> $APP_NAME
     done
 fi
-  if [ ! -e src/main ]
+  if [ ! -e src/main.vss ]
   then
     echo "Main class not found, exiting"
     exit

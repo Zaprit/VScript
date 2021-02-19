@@ -1,11 +1,12 @@
-VS_VERSION=1.2
-VS_CODENAME="Cayenne"
-
-#Pregenerated code ahead. Here be dragons?
-if [ "$1" == "-h" ]
+throw(){
+if [ "$VS_DEBUGGER" == "null" ]
 then
-  echo "VScript Version $VS_VERSION $VS_CODENAME"
+ echo "ERROR: $1 in program $APP_NAME"
+ echo "Error Detected... Dumping program data"
+ dump
+ exit 1
 fi
+}
 dump(){
 echo "Crash Dump"
 echo "VScript Version: $VS_VERSION $VS_CODENAME"
@@ -35,17 +36,31 @@ echo "  App name: $APP_NAME"
 echo "  App display name: $APP_FUZZY_NAME"
 echo "  App version: $APP_VERSION"
 }
-throw(){
-echo "ERROR: $1 in program $APP_NAME"
-echo "Error Detected... Dumping program data"
-dump
-exit 1
+loadedLibs=""
+loadedMods="n/a due to VSC compilation"
+compiler="VSC"
+if [ -e /etc/VScript/$VS_VERSION/VScript.conf ]
+then
+ source /etc/VScript/$VS_VERSION/VScript.conf
+fi 
+
+import(){
+for loc in $VSC_LIB_PATH
+ do
+  if [ -f "$loc/$1.vsl" ]
+  then
+   source $loc/$1.vsl
+   return 0
+  fi
+ done
 }
+loadedLibs=""
+loadedMods="n/a due to VSC compilation"
+compiler="VSC"
 var(){
 vars="$vars\n$1"
 eval "$1"
 }
-loadedLibs="$loadedLibs\ncore V1.0: VScript Core Module"
-
-# end of library core 
-
+loadedLibs=""
+loadedMods="n/a due to VSC compilation"
+compiler="VSC"

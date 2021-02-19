@@ -1,0 +1,17 @@
+VSC.resolveImportPath(){
+ if [ "$1" == "" ]
+ then
+  throw "no import name specified in VSC:resolveImportPath"
+  return 1
+ fi
+ 
+ for loc in $VSC_LIB_PATH
+ do
+  if [ -f "$loc/$1.vsl" ]
+  then
+   echo $loc/$1.vsl
+   return 0
+  fi
+ done
+ throw "invalid import: $1 in VSC:resolveImportPath"
+}

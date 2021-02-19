@@ -1,0 +1,7 @@
+VSC.commitMetadata(){
+ echo "APP_NAME=\"$VSC_PROG_NAME\"" >> $1
+ echo "APP_FUZZY_NAME=\"$VSC_PROG_DISPLAY_NAME\"" >> $1
+ echo "APP_VERSION=\"$VSC_PROG_VERSION\"" >> $1
+ echo "VS_VERSION=$VS_VERSION" >> $1
+ echo "VS_CODENAME=\"$VS_CODENAME\"" >> $1
+}
