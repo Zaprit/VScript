@@ -1,3 +1,0 @@
-VSC.getImports(){
-echo $(grep '^include.' $1 | sed 's/include //g' | tr ' ' '\n')
-}

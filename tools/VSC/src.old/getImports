@@ -1,3 +1,0 @@
-VSC.getImports(){
-echo $(grep '^import.' $1 | sed 's/import //g' | tr ' ' '\n')
-}

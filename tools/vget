@@ -1,5 +1,5 @@
 #!/bin/bash
-VS_URL="https://git.vorax.org/Henry/VScript.git"
+VS_URL="https://github.com/Zaprit/VScript.git"
 
 isFallback(){
   if [ "$FALLBACK" == "true" ]
