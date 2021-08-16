@@ -1,5 +1,9 @@
 # VScript -- A Bash Library Tool
 
+# THIS IS NOT ALWAYS GOING TO BE UP TO DATE... IF YOU WANT THE LATEST GO TO https://git.vorax.org/henry/VScript
+## THE RELEASES SHOULD BE FINE BUT you know just go to our git if you want the bleeding edge.
+
+
 ## About
 VScript is a tool for making, managing, and maintaining bash libraries
 
