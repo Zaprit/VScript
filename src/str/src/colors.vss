@@ -1,3 +1,4 @@
+# ANSI Escape Wrappers
 colors.reset=$(echo -en '\033[0m')
 colors.red=$(echo -en '\033[00;31m')
 colors.green=$(echo -en '\033[00;32m')
