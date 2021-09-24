@@ -1,0 +1,64 @@
+#!/bin/bash
+
+bold=$(tput bold)
+normal=$(tput sgr0)
+
+helpPage(){
+  echo "Appinfo Tool 2.0"
+  echo "Usage: ${bold}appinfo ${normal}VScriptProgram ..."
+  echo "This tool gets info from VScript Applications and prints it to the screen"
+}
+
+main() {
+
+if [[ "$1" == "-h" || "$1" == "--help" || "$1" == "help" ]]; then
+  helpPage
+  exit
+fi
+
+if [[ "$1" == "" ]]; then
+  echo "Error: You ${bold}must${normal} specify a VScript Application"
+  helpPage
+  exit
+fi
+
+if ! [ -f "$1" ]
+then
+  echo "Error: $1 does not exist"
+  exit
+fi
+
+
+echo "AppData Tool 2.0"
+
+VSCRIPT_APPINFO_NO_EXEC=1 source $1 --getdata
+
+if [[ -z ${APP_NAME+x} ]]; then
+ echo "ERROR: Not a VScript Application: $1"
+ exit
+fi
+
+echo "  App Metadata:"
+echo "  Name: $APP_NAME"
+echo "  Version $APP_VERSION"
+echo "  Display Name: $APP_FUZZY_NAME"
+if ! [ -z ${COMPILER+x} ]
+then
+echo "  Compiler: $COMPILER"
+COMP=$COMPILER
+else
+echo "  Compiler: VRamen? The compiler variable is unset, this indicates vramen, or not a VScript Program"
+COMP=vramen
+fi
+
+if [ "$COMP" == "vramen" ]
+then
+  echo "  VScript Data:"
+  echo "   VScript Version: $VS_VERSION"
+  echo "   VScript Version Codename: $VS_CODENAME"
+  echo "   Loaded libraries in runtime: $loadedlibs"
+  echo "   Loaded modules in runtime: $loadedmods"
+else
+  echo "  "
+fi
+}
