@@ -1,16 +1,10 @@
 # VScript -- A Bash Library Tool
 
-# THIS IS NOT ALWAYS GOING TO BE UP TO DATE... IF YOU WANT THE LATEST GO TO https://git.vorax.org/henry/VScript
-## THE RELEASES SHOULD BE FINE BUT you know just go to our git if you want the bleeding edge.
-
-
 ## About
 VScript is a tool for making, managing, and maintaining bash libraries
 
 ## Download
-There are two ways of getting VScript if you want the stable release then:
-Grab the latest release off of the [Releases page](https://git.vorax.org/henry/VScript/releases), unzip it and read its README. The Release has all you need.
-If you want a custom latest runtime then try vget
+TODO: Write this
 
 ## How to develop
 In essence you just keep coding as usual but you make a folder called src with a file called main with a function called main and that is where your program starts
