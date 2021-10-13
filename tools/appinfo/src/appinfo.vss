@@ -42,9 +42,9 @@ echo "  App Metadata:"
 echo "  Name: $APP_NAME"
 echo "  Version $APP_VERSION"
 echo "  Display Name: $APP_FUZZY_NAME"
-if ! [ -z ${COMPILER+x} ]
+if ! [ -z ${compiler+x} ]
 then
-echo "  Compiler: $COMPILER"
+echo "  Compiler: $compiler"
 COMP=$COMPILER
 else
 echo "  Compiler: VRamen? The compiler variable is unset, this indicates vramen, or not a VScript Program"
@@ -59,6 +59,6 @@ then
   echo "   Loaded libraries in runtime: $loadedlibs"
   echo "   Loaded modules in runtime: $loadedmods"
 else
-  echo "  "
+  echo "   "
 fi
 }
